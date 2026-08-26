@@ -1,0 +1,30 @@
+{
+  "name": "test-playwright-e2e",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "playwright",
+    "e2e",
+    "typescript",
+    "qa",
+    "automation"
+  ],
+  "homepage": "https://github.com/makajjou/test-playwright-e2e#readme",
+  "bugs": {
+    "url": "https://github.com/makajjou/test-playwright-e2e/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makajjou/test-playwright-e2e.git"
+  },
+  "license": "ISC",
+  "author": "makajjou",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  }
+}

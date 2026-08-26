@@ -1,0 +1,450 @@
+//importer le framework : 
+
+import {test, expect} from '@playwright/test';
+
+// écrire un test 
+
+test('test_1' , async({page}) => {
+
+#contenu du script});
+
+//aller à une page : 
+
+await page.goto('#URL');
+
+//Vérifier s'il y a un titre (ici playwright comme partie du titre): 
+
+await expect(page).toHaveTitle(/playwright/);
+
+//Cliquer sur un lien : 
+
+await page.getByRole('link', {name : 'Get Started'}).click() (ici link pour la balise <a href = ''>)
+
+//Vérifier s'il y a une chaine de caractéres dans un heading
+
+await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible(); //ici, on vérifie si Installation se trouve dans l'entête
+
+// fonction étapes dans un seul test 
+
+await test.step('ouvrir une page', async() => {
+	#contenu du script
+})
+
+// fonction getByLabel pour cliquer ou remplir un champ
+
+await page.getByLabel('#contenu de la balise <label>').click();
+await page.getByLabel('#contenu de la balise <label>').fill('#texte à écrire') // s'il y a un input à l'intérieur de la balise Label
+
+// cliquer sur un bouton : 
+
+await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+
+/* pour une balise qui ressemble à cela : 
+
+<button>Sign in</button> 
+<input type="submit" value="Sign in">
+<input type="button" value="Sign in">
+<input type="reset" value="Sign in">
+
+*/
+// écrire du text 
+await
+<input type="text">
+
+
+//verifier un text dans une alerte (ou un autre objet) : 
+
+await expect(page.getByRole('alert')).toContainText('Incorrect username or password.');
+
+/* pour du texte :     
+<div aria-atomic="true" role="alert" class="js-flash-alert">
+      
+      Incorrect username or password.
+
+    <span class="sr-only">&nbsp;</span></div>
+  </div>
+*/
+
+await page.getByRole('textbox').fill('Mohammed'); // pour des chemins de type : <input id="email" type="text">
+await page.getByPlaceholder('Search').first().click(); //la fonction getByPlaceholder permet de vérifier si l'attribut Placeholder a comme valeur 'Search', il choisit le premier élément en cas de plusieurs
+//.nth(5) plutot que .first pour choisir le 6ème élément (on commence par 0)
+
+les fonctions principales expect :
+
+await expect(locator).toBeVisible() (locator existe et visible)
+await expect(locator).toBeHidden() (locator existe mais non visible, ou n'existe pas)
+await expect(locator).toHaveAccessibleName('Sign in') (valeur de la balise)
+await expect(locator).toHaveAttribute('type', 'submit'); //<input type="submit" value="Sign in">
+await expect(locator).toContainText('Incorrect name or password')
+await expect(page).toHaveTitle(/Playwright/) //vérifier si la balise title contient playwright
+await expect(page).toHaveURL('#URL')  // vérifier si l'url de la page correspond à l'url indiquée.
+await page.locator('input[name="search_query"]').first().fill('playwright typescript by testers talk'); #// ici on détermine le contenu des inputs
+
+
+
+les fonctions action : 
+
+click() : //pour Cliquer
+fill() : //pour remplir un champ
+check() : //pour cocher une case
+press() : //appuyer sur un bouton clavier (exemple : press('Enter'))
+//(soit on cible un element : page.GetByRole().press(), soit on ne cible rien : page.keyboard.press())
+
+hover() : //placer la souris sans cliquer (exemple : locator.hover() : permet de placer la souris sur un locator, locator.click() pour y cliquer : il faut que le locator existe et soit visible)
+
+dblclick() : //clique 2 fois sur la cible.
+
+draggable_locator.dragTo(droppable_locator) : //Déplacer un locator vers une cible <div id="draggable">Drag me</div><div id="droppable">Drop here</div>
+
+selectOption() : //pour sélectionner une option selectOption('ma') pour index = 'ma' ou selectOption({ label: 'Maroc' }) pour une valeur = 'Maroc'
+
+les fonctions wait : 
+
+waitForURL("URL") : //attendre qu'une URL soit atteinte pour continuer les tests : à ne pas confondre avec expect.toHaveURL() qui vérifie si l'url est atteinte ou pas (OK ou KO)
+
+waitForLoadState() : // Vérifier le chargement en cours d'une page
+
+waitForResponse('URI') : //Vérifie la réponse HTTP (500, 200, 403) : sortie une promesse 
+// pour avoir le code, on écrit const Reponse = await ReponsePromess (ici la réponse complete qui est un objet), puis const codeHTTP = Reponse.status()
+
+waitForEvent() : //cas général : ici on précise l'événement : download, popup etc ...
+
+//Exemple : downloadPromise = waitForEvent('download'), const download = await downloadPromise
+// ici download est un objet, expect(download.suggestedFilename()).toBe('sampleFile.jpeg');
+waitForEvent() : //cas général : ici on précise l'événement : download
+
+Hooks : 
+
+beforeAll() : //Permet de réaliser les actions avant toutes les tests
+beforeEach() : // Permet de réaliser la même action avant chaque test
+afterAll(), afterEach() // meme chose mais plutôt qu'avant, après
+//Exemple d'utilisation : test.beforeAll(async() => {console.log('Début de lancement des tests');});
+
+Page Object Model 
+
+LoginPage
+
+const loginPage = new LoginPage(page); //(créer l'objet page de connexion)
+await loginPage.login(user, password); //(écrire login et mot de passe)
+await loginPage.logout(); //(se déconnecter si la déconnexion est gérée par loginPage, sinon on utilise les headers de classe HeaderComponent)
+
+HomePage : 
+
+Même logique que LoginPage, mais ici HomePage est la page d'accueil du site de la page "page"
+await page.goto('www.google.com')
+const homePage = new HomePage(page)
+await homePage.search('pourquoi macron est-il hai')
+
+DashboardPage 
+
+Même logique que les précédentes, mais ici dashboardPage est la page qui contient les dashboard après connexion.
+
+Exemples de méthodes :
+
+const dashboardPage = new DashboardPage(page);
+// Créer une instance représentant le tableau de bord
+
+await dashboardPage.openProfile();
+// Ouvrir le profil depuis le dashboard
+
+await dashboardPage.openNotifications();
+// Ouvrir les notifications depuis le dashboard
+// pour importer : 
+
+import { LoginPage } from '../pages/LoginPage';
+import { HomePage } from '../pages/HomePage';
+import { DashboardPage } from '../pages/DashboardPage';
+
+// à noter que ces classes sont créés par le QA, elles ne sont pas prédéfinies
+
+//voici le code pour les créer : (grand classique, à adapter selon le site web à tester)
+
+LoginPage.ts
+import { type Locator, type Page } from '@playwright/test';
+
+export class LoginPage {
+  readonly page: Page;
+  readonly usernameInput: Locator;
+  readonly passwordInput: Locator;
+  readonly loginButton: Locator;
+  readonly errorMessage: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+
+    this.usernameInput = page.getByLabel('Utilisateur');
+    this.passwordInput = page.getByLabel('Mot de passe');
+
+    this.loginButton = page.getByRole('button', {
+      name: 'Se connecter',
+    });
+
+    this.errorMessage = page.getByRole('alert');
+  }
+
+  async goto(): Promise<void> {
+    await this.page.goto('https://monsite.com/login');
+  }
+
+  async login(username: string, password: string): Promise<void> {
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
+  }
+}
+HomePage.ts
+import { type Locator, type Page } from '@playwright/test';
+
+export class HomePage {
+  readonly page: Page;
+  readonly searchInput: Locator;
+  readonly searchButton: Locator;
+  readonly welcomeMessage: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+
+    this.searchInput = page.getByPlaceholder('Rechercher');
+
+    this.searchButton = page.getByRole('button', {
+      name: 'Rechercher',
+    });
+
+    this.welcomeMessage = page.getByText('Bienvenue');
+  }
+
+  async goto(): Promise<void> {
+    await this.page.goto('https://monsite.com');
+  }
+
+  async search(searchText: string): Promise<void> {
+    await this.searchInput.fill(searchText);
+    await this.searchButton.click();
+  }
+}
+DashboardPage.ts
+import { type Locator, type Page } from '@playwright/test';
+
+export class DashboardPage {
+  readonly page: Page;
+  readonly heading: Locator;
+  readonly profileButton: Locator;
+  readonly notificationsButton: Locator;
+  readonly settingsButton: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+
+    this.heading = page.getByRole('heading', {
+      name: 'Tableau de bord',
+    });
+
+    this.profileButton = page.getByRole('button', {
+      name: 'Profil',
+    });
+
+    this.notificationsButton = page.getByRole('button', {
+      name: 'Notifications',
+    });
+
+    this.settingsButton = page.getByRole('button', {
+      name: 'Paramètres',
+    });
+  }
+
+  async openProfile(): Promise<void> {
+    await this.profileButton.click();
+  }
+
+  async openNotifications(): Promise<void> {
+    await this.notificationsButton.click();
+  }
+
+  async openSettings(): Promise<void> {
+    await this.settingsButton.click();
+  }
+}
+HeaderComponent.ts
+import { type Locator, type Page } from '@playwright/test';
+
+export class HeaderComponent {
+  readonly page: Page;
+  readonly accountButton: Locator;
+  readonly logoutButton: Locator;
+  readonly homeLink: Locator;
+  readonly logo: Locator;
+
+  constructor(page: Page) { // équivalent à init en python, pour initier les attributs
+    this.page = page;
+
+    this.accountButton = page.getByRole('button', {
+      name: 'Mon compte',
+    });
+
+    this.logoutButton = page.getByRole('button', {
+      name: 'Se déconnecter',
+    });
+
+    this.homeLink = page.getByRole('link', {
+      name: 'Accueil',
+    });
+
+    this.logo = page.getByRole('img', {
+      name: 'Logo',
+    });
+  }
+
+  async openAccountMenu(): Promise<void> { //On définit une méthode qui a comme sortie le vide (elle fait juste une promesse qui retourne du vide)
+    await this.accountButton.click();
+  }
+
+  async logout(): Promise<void> {
+    await this.accountButton.click();
+    await this.logoutButton.click();
+  }
+
+  async goToHome(): Promise<void> {
+    await this.homeLink.click();
+  }
+}
+
+Fixtures :
+
+Le but est de pouvoir utiliser les classes de type LoginPage, directement depuis l'objet test
+
+Le but est d''adapter l''objet test initialement défini sur playwright afin d'importer les fixtures page et loginPage 
+
+
+comment on définit cela 
+
+type MyFixtures = {
+  loginPage: LoginPage;
+};
+// Déclarer le nom et le type de la fixture personnalisée
+
+export const test = base.extend<MyFixtures>({
+  loginPage: async ({ page }, use) => {
+    const loginPage = new LoginPage(page);
+
+    await use(loginPage);
+  },
+});
+// Créer l’objet LoginPage et le fournir automatiquement au test
+
+// Les fonctions de Navigation : 
+
+await page.goto('URL') //Pour aller à l'URL
+await page.goBack() // Revenir à la page précédente.
+await page.reload() // Recharger la page
+await page.goForward() //revenir à la page suivante, cas où déjà on est revenu en arrière
+
+
+//fonctions des api
+
+request.get()
+
+request.post()
+
+request.put()
+
+request.delete()
+
+//ici request c'est comme page, une fixture
+
+test('Récupérer un utilisateur', async ({ request }) => {
+    const response = await request.get(
+        'https://jsonplaceholder.typicode.com/users/1' //response c'est la réponse extraite de la promesse request.get
+    );
+
+    expect(response.status()).toBe(200); //response.status() est le code http
+    expect(response.ok()).toBeTruthy(); //response.ok() est un booléan
+
+    const body = await response.json(); //Le coeur de la réponse, le contenu json
+
+    console.log(body);
+    expect(body.id).toBe(1); //l'attribut id du json body
+});
+
+// Frame : une page intégrée à l'intérieur d'une page web
+
+<body>
+    <h1>Page principale</h1>
+
+    <iframe src="https://paiement.example.com"></iframe>
+</body>
+
+// pour la définir, on agit ainsi : 
+
+const paymentFrame = page.frameLocator('iframe'); //définition de la frame
+
+await paymentFrame
+    .getByRole('button', { name: 'Payer' }) //extraire un locator de la frame
+    .click();
+	
+//nouveaux onglets
+
+const page2 = await context.newPage(); //context est une fixture
+
+// uploads
+
+const locator1 = page.getByLabel('Ajouter un fichier');
+await locator1.setInputFiles("chemin du fichier");
+
+// screenshot 
+
+capture de toute la page : 
+
+await page.screenshot({
+    path: 'screenshots/page-complete.png',
+    fullPage: true //capture toute la page scrollable, même la non-visible dans l'écran
+});
+
+capture d'un seul élément : 
+
+const bouton = page.getByRole('button', { name: 'Connexion' });
+
+await bouton.screenshot({
+    path: 'screenshots/bouton.png'
+});
+
+
+// avec la variable 
+
+const locator1 = page.getByLabel('Ajouter un fichier');
+
+await locator1.screenshot({
+    path: 'screenshots/champ-upload.png'
+});
+
+//boite de dialogue
+
+dialog.accept();        // cliquer sur OK
+dialog.dismiss();       // cliquer sur Annuler
+dialog.accept('texte'); // saisir une valeur dans un prompt
+dialog.message();       // récupérer le message
+dialog.type();          // récupérer le type
+
+Pour écouter toute les fenêtres de dialogue : 
+
+page.on('dialog', async dialog => {
+    await dialog.accept();
+});
+
+//Pour écouter la prochaine fenêtre de dialogue :
+
+page.once('dialog', async dialog => {
+    await dialog.accept();
+});
+
+//dialog.type() : 'alert' si c'est une information
+//: 'confirm' si ça contient OK ou annuler 
+//: 'prompt' s'il y a un texte à saisir 
+
+
+//Trace viewer  : permet de voir tous les traces d'actions réalisées
+
+npx playwright show-trace trace.zip
+
+// Exécution et config : voir le fichier d'étapes configuration playwright_modop.txt
+
+

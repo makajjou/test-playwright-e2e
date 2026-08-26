@@ -1,0 +1,19 @@
+Readme playwright-e2e
+
+
+npm init -y
+npm install -D @playwright/test
+npx playwright install
+
+
+Exécutions : 
+
+npx playwright test --option (--option = --ui mode UI, --debug mode debug  --headed mode navigateur ouvert)
+npx playwright test fichier_de_test.ts (pour exécuter un fichier de test en particulier)
+
+
+Configuration :
+
+Fichier de configuration : playwright.config.ts
+
+il contient toutes les options de lancement du test (navigateur, parallèlisme ...)
