@@ -5,6 +5,17 @@ npm init -y
 npm install -D @playwright/test
 npx playwright install
 
+ou 
+
+npm init playwright@latest
+
+en CI/CD :
+
+npm ci
+npx playwright install --with-deps
+npx playwright test
+
+
 
 Exécutions : 
 
