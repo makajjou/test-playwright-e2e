@@ -1,6 +1,6 @@
 {
   "name": "test-playwright-e2e",
-  "version": "1.0.0",
+  "version": "1.62.1",
   "description": "",
   "keywords": [
     "playwright",
@@ -24,6 +24,6 @@
   "scripts": {},
   "devDependencies": {
     "@playwright/test": "^1.62.1",
-    "@types/node": "^26.4.0"
+    "@types/node": "^25.3.0"
   }
 }

@@ -448,3 +448,25 @@ npx playwright show-trace trace.zip
 // Exécution et config : voir le fichier d'étapes configuration playwright_modop.txt
 
 
+les boucles typescript : 
+
+  for (const link of companyLinks) {
+    const locator = page.getByRole('link', { name: link.name });
+
+    await expect(locator).toBeVisible();
+    await expect(locator).toHaveAttribute('href', new RegExp(link.url));
+  }
+  
+// exécuter des tests en série : 
+
+test.describe.serial('Tests séquentiels', () => {
+
+  test('test 1', async ({ page }) => {
+    // ...
+  });
+
+  test('test 2', async ({ page }) => {
+    // ...
+  });
+
+});
