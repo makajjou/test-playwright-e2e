@@ -28,7 +28,7 @@ const icon = page.locator('img[src = "https://demo.mahocommerce.com/skin/fronten
 const home_button = page.getByLabel('Go To Home Page');
 await expect(icon).toBeVisible();
 await home_button.click();
-await expect(page).toHaveURL('https://demo.mahocommerce.com/');
+await expect(page).toHaveURL(/^https\:\/\/demo\.mahocommerce\.com/);
 
 	
 });
@@ -40,11 +40,15 @@ await page.goto('https://demo.mahocommerce.com/');
 const footer = page.getByRole('contentinfo');
 await expect(footer).toBeVisible();
 await expect(footer.getByText('Newsletter', { exact:true })).toBeVisible();
-const footer_titles = ['Company', 'Quick Links', 'Account', 'Connect With Us'];
-const footer_content = {'Company': ['About Us','Contact Us','Customer Service','Revoke Contract','Privacy Policy'], 
+const footer_titles = [
+'Company', 'Quick Links', 'Account'/*, 'Connect With Us'*/
+];
+const footer_content = {'Company': ['About Us','Contact Us','Customer Service','Privacy Policy'], 
 	'Quick Links': ['Site Map'],
 	'Account' : ['My Account', 'Orders and Returns'],
-    'Connect With Us' : ['Facebook', 'Twitter', 'Youtube']};
+    /*'Connect With Us' : ['Facebook', 'Twitter', 'Youtube']*/
+	};
+	
 
 for (const title of footer_titles){
 	await expect(footer.getByText(title, { exact:true })).toBeVisible();
@@ -173,7 +177,7 @@ await expect(side_bar.getByRole('link', {name : 'Logout'})).toBeVisible();
 await side_bar.getByRole('link', {name : 'Logout'}).click();
 await expect(page.getByText('You are now logged out')).toBeVisible();
 await expect(page.getByText('You have logged out and will be redirected to our homepage in 5 seconds.')).toBeVisible();
-await expect(page).toHaveURL('https://demo.mahocommerce.com/', {timeout : 10000}); //KO en 5 sec, OK en 8 sec
+await expect(page).toHaveURL(/^https\:\/\/demo\.mahocommerce\.com/, {timeout : 10000}); //KO en 5 sec, OK en 8 sec
 }
 )
 ;

@@ -316,7 +316,7 @@ Le but est d''adapter l''objet test initialement défini sur playwright afin d'i
 
 
 comment on définit cela 
-
+import { test as base } from '@playwright/test';
 type MyFixtures = {
   loginPage: LoginPage;
 };
